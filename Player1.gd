@@ -8,6 +8,7 @@ extends CharacterBody3D
 @export var SPRINT : float = 10.0
 @export var JUMP_VELOCITY : float = 0.0
 
+
 var rotation_x := 0.0
 var sprinting : bool = false
 var stamina : float = 100.0
@@ -36,14 +37,13 @@ func _physics_process(delta : float) -> void:
 func _movimiento(delta : float):
 	if Input.is_action_pressed("Sprint") and stamina > 0.0:
 		sprinting = true
-		if stamina <= 0:
-			stamina -= stamina * delta
+		stamina -= stamina * delta
+		stamina = clamp(stamina, 0, 100)
 		
-	else:
+	elif Input.is_action_just_released("Sprint") or stamina == 0.0:
 		sprinting = false
-		if stamina <= 100:
-			stamina += stamina * delta
-		
+		stamina += stamina * delta
+		stamina = clamp(stamina, 0, 100)
 	
 	print("Mi estamina es: ", stamina)
 
