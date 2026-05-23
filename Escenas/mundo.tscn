@@ -21,6 +21,3 @@ mesh = SubResource("BoxMesh_xwo6f")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Piso" unique_id=1551829529]
 shape = SubResource("BoxShape3D_6ba58")
-
-[node name="Camera3D" type="Camera3D" parent="." unique_id=174386970]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.016595721, 1.2361169, 3.1324117)
