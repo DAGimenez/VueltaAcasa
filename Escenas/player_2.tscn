@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://ddtbn2xdheydv"]
+
+[ext_resource type="Script" uid="uid://wybf4lrkoove" path="res://player_2.gd" id="1_wldhy"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_03rxy"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hoa26"]
+
+[node name="Player2" type="CharacterBody3D" unique_id=375130067]
+script = ExtResource("1_wldhy")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=235510733]
+mesh = SubResource("CapsuleMesh_03rxy")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=194374109]
+shape = SubResource("CapsuleShape3D_hoa26")
+
+[node name="Pivot" type="Node3D" parent="." unique_id=1433172462]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="Pivot" unique_id=1536405825]
+
+[node name="Camera3D" type="Camera3D" parent="Pivot/SpringArm3D" unique_id=229304686]
