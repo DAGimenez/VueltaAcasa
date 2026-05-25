@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://dw0dhk4tbj0wx"]
+
+[ext_resource type="PackedScene" uid="uid://cwkfvlbr06uj2" path="res://Escenas/Player1.tscn" id="1_wxucn"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_xwo6f"]
+size = Vector3(20, 0.5, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6ba58"]
+size = Vector3(20, 0.5, 20)
+
+[node name="Mundo" type="Node3D" unique_id=767280865]
+
+[node name="Player1" parent="." unique_id=749115041 instance=ExtResource("1_wxucn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2010136, 0)
+JUMP_VELOCITY = 1.0
+
+[node name="Piso" type="StaticBody3D" parent="." unique_id=1440693210]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Piso" unique_id=1689045080]
+mesh = SubResource("BoxMesh_xwo6f")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Piso" unique_id=1551829529]
+shape = SubResource("BoxShape3D_6ba58")
