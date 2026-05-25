@@ -4,14 +4,17 @@ extends CharacterBody3D
 @onready var camera_3d: Camera3D = $vista/Camera3D
 
 @export var mouse_sensitivity : float = 0.005
-@export var SPEED : float = 0.0
+@export var SPEED : float = 3.0
 @export var SPRINT : float = 10.0
 @export var JUMP_VELOCITY : float = 0.0
 
 
 var rotation_x := 0.0
 var sprinting : bool = false
-var stamina : float = 100.0
+var stamina : float = 200.0
+var MIN_SPRINT := 175.0
+var recovery := 100.0
+var decrement := 50.0
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
@@ -27,40 +30,53 @@ func _input(event: InputEvent) -> void:
 		vista.rotation.x = rotation_x
 
 func _ready() -> void:
-	SPEED = 6.0
-	JUMP_VELOCITY = 6.0
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _physics_process(delta : float) -> void:
 	_salto(delta)
 	_movimiento(delta)
+	actualizar_stamina()
+
+func actualizar_stamina():
+	if stamina >= 133.34:
+		SPRINT = 8.0
+	elif stamina < 66.68:
+		SPRINT = 4.0
+	else:
+		SPRINT = 6.0
+		
+	print("mi velocidad es: ", SPRINT, " y mi estamina es de: " , stamina)
+
 
 func _movimiento(delta : float):
-	if Input.is_action_pressed("Sprint") and stamina > 0.0:
+	if Input.is_action_pressed("Sprint") and stamina >= MIN_SPRINT:
 		sprinting = true
-		stamina -= stamina * delta
-		stamina = clamp(stamina, 0, 100)
 		
-	elif Input.is_action_just_released("Sprint") or stamina == 0.0:
+	elif Input.is_action_just_released("Sprint") or stamina <= 0:
 		sprinting = false
-		stamina += stamina * delta
-		stamina = clamp(stamina, 0, 100)
-	
-	print("Mi estamina es: ", stamina)
-
+		
 	var input_dir := Input.get_vector("A", "D", "W", "S")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	
-	if direction and sprinting:
-		velocity.x = direction.x * SPRINT
-		velocity.z = direction.z * SPRINT
-	elif direction:
-		velocity.x = direction.x * SPEED
-		velocity.z = direction.z * SPEED
+
+	if direction:
+		if sprinting:
+			velocity.x = direction.x * SPRINT
+			velocity.z = direction.z * SPRINT
+			stamina -= recovery * delta
+			stamina = clamp(stamina, 0, 200)
+		else:
+			stamina += decrement * delta
+			velocity.x = direction.x * SPEED
+			velocity.z = direction.z * SPEED
+			stamina = clamp(stamina, 0, 200)
 	else:
+		stamina += decrement * delta
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
-
+		stamina = clamp(stamina, 0, 200)
+	
 	move_and_slide()
+
 
 func _salto(delta : float):
 		# Add the gravity.
