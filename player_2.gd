@@ -5,7 +5,7 @@ extends CharacterBody3D
 @export var SPEED = 5.0
 @export var SPRINT = 10.0
 @export var JUMP_VELOCITY = 4.5
-@export var mouse_sensivility := 0.0005
+@export var mouse_sensivility := 0.005
 
 var stamina := 100.0
 var sprinting : bool = false
@@ -20,7 +20,9 @@ func _input(event: InputEvent) -> void:
 		rotate_y(-event.relative.x * mouse_sensivility)
 		
 		pitch -= event.relative.y * mouse_sensivility
-		pitch = clamp(pitch, deg_to_rad(90), deg_to_rad(90))
+		
+		pitch = clamp(pitch, deg_to_rad(-45), deg_to_rad(60))
+		
 		pivot.rotation.x = pitch
 
 func _salto(delta : float):
