@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="Vuelta_Casa"
+run/main_scene="uid://dw0dhk4tbj0wx"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
