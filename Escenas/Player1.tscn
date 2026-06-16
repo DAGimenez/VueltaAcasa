@@ -1,10 +1,18 @@
 [gd_scene format=3 uid="uid://cwkfvlbr06uj2"]
 
-[ext_resource type="Script" uid="uid://ca8xh74ded3ux" path="res://Player1.gd" id="1_g56gh"]
+[ext_resource type="Script" uid="uid://ca8xh74ded3ux" path="res://Scripts/Player1.gd" id="1_g56gh"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lro36"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_5teau"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_g56gh"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
 
 [node name="Player1" type="CharacterBody3D" unique_id=749115041]
 script = ExtResource("1_g56gh")
@@ -19,3 +27,6 @@ mesh = SubResource("CapsuleMesh_5teau")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.597, -0.4)
 
 [node name="Camera3D" type="Camera3D" parent="vista" unique_id=1551824101]
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=735979926]
+replication_config = SubResource("SceneReplicationConfig_g56gh")

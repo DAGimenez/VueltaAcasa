@@ -1,10 +1,18 @@
 [gd_scene format=3 uid="uid://ddtbn2xdheydv"]
 
-[ext_resource type="Script" uid="uid://wybf4lrkoove" path="res://player_2.gd" id="1_wldhy"]
+[ext_resource type="Script" uid="uid://wybf4lrkoove" path="res://Scripts/player_2.gd" id="1_wldhy"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_03rxy"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hoa26"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_wldhy"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
 
 [node name="Player2" type="CharacterBody3D" unique_id=375130067]
 script = ExtResource("1_wldhy")
@@ -22,3 +30,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
 spring_length = 3.0
 
 [node name="Camera3D" type="Camera3D" parent="Pivot/SpringArm3D" unique_id=229304686]
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1802815287]
+replication_config = SubResource("SceneReplicationConfig_wldhy")

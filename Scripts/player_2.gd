@@ -1,6 +1,7 @@
 extends CharacterBody3D
 
 @onready var pivot: Node3D = $Pivot
+@onready var camera_3d: Camera3D = $Pivot/SpringArm3D/Camera3D
 
 @export var SPEED = 5.0
 @export var JUMP_VELOCITY = 4.5
@@ -10,9 +11,20 @@ extends CharacterBody3D
 var pitch := 0.0
 
 func _ready() -> void:
+	camera_3d.current = is_multiplayer_authority()
+	
+	if !is_multiplayer_authority():
+		return
+		
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
+func _enter_tree() -> void:
+	set_multiplayer_authority(name.to_int())
+
 func _input(event: InputEvent) -> void:
+	if !is_multiplayer_authority():
+		return
+		
 	if event is InputEventMouseMotion:
 		
 		rotate_y(-event.relative.x * mouse_sensivility)
@@ -23,14 +35,11 @@ func _input(event: InputEvent) -> void:
 		
 		pivot.rotation.x = pitch
 
-func _salto(delta : float):
+func gravedad(delta : float):
 
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
-	# Handle jump.
-	if Input.is_action_just_pressed("Salto") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
 
 		
 
@@ -48,6 +57,9 @@ func _movimiento():
 	move_and_slide()
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(delta):
+
+	if !is_multiplayer_authority():
+		return
+	gravedad(delta)
 	_movimiento()
-	#_salto(delta)

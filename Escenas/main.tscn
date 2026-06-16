@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://dfcpgy528m4sk"]
+
+[ext_resource type="Script" uid="uid://cg67cb4ceuhey" path="res://main.gd" id="1_6lbni"]
+[ext_resource type="PackedScene" uid="uid://dw0dhk4tbj0wx" path="res://Escenas/mundo.tscn" id="2_2ia52"]
+[ext_resource type="Script" uid="uid://dp1nplx0np0no" path="res://Scripts/ServerManager.gd" id="2_vt1rs"]
+[ext_resource type="PackedScene" uid="uid://cwkfvlbr06uj2" path="res://Escenas/Player1.tscn" id="3_7xwpo"]
+[ext_resource type="PackedScene" uid="uid://ddtbn2xdheydv" path="res://Escenas/player_2.tscn" id="4_2ia52"]
+
+[node name="Main" type="Node" unique_id=1587414827]
+script = ExtResource("1_6lbni")
+
+[node name="IU" type="Control" parent="." unique_id=100394754]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="IU" unique_id=1031559185]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.10224319, 0.10224321, 0.10224321, 1)
+
+[node name="BoxContainer" type="BoxContainer" parent="IU" unique_id=738004901]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -95.5
+offset_top = -50.5
+offset_right = 95.5
+offset_bottom = 50.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="IU/BoxContainer" unique_id=1536614255]
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="IU/BoxContainer/VBoxContainer" unique_id=1718288078]
+layout_mode = 2
+text = "127.0.0.1"
+placeholder_text = "Ingresa la IP del Server"
+
+[node name="Host" type="Button" parent="IU/BoxContainer/VBoxContainer" unique_id=497316326]
+layout_mode = 2
+text = "CREAR SERVIDOR"
+
+[node name="Join" type="Button" parent="IU/BoxContainer/VBoxContainer" unique_id=564842168]
+layout_mode = 2
+text = "UNIRSE A UN SERVIDOR"
+
+[node name="Room" type="Node" parent="." unique_id=274986683]
+
+[node name="Mundo" parent="Room" unique_id=767280865 instance=ExtResource("2_2ia52")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.4469683, 0)
+
+[node name="ServerManager" type="Node" parent="." unique_id=828163175 node_paths=PackedStringArray("main_scene")]
+script = ExtResource("2_vt1rs")
+Player1 = ExtResource("3_7xwpo")
+Player2 = ExtResource("4_2ia52")
+main_scene = NodePath("../Room")
+port = "3060"
+max_clients = 5
+metadata/_custom_type_script = "uid://dp1nplx0np0no"
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1254012622]
+_spawnable_scenes = PackedStringArray("uid://cwkfvlbr06uj2", "uid://ddtbn2xdheydv")
+spawn_path = NodePath("../Room")
+
+[connection signal="pressed" from="IU/BoxContainer/VBoxContainer/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="IU/BoxContainer/VBoxContainer/Join" to="." method="_on_join_pressed"]

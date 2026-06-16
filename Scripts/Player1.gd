@@ -16,6 +16,9 @@ var MIN_SPRINT := 175.0
 var recovery := 100.0
 var decrement := 50.0
 
+func _enter_tree() -> void:
+	set_multiplayer_authority(name.to_int())
+
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		
@@ -30,9 +33,17 @@ func _input(event: InputEvent) -> void:
 		vista.rotation.x = rotation_x
 
 func _ready() -> void:
+	camera_3d.current = is_multiplayer_authority()
+
+	
+
+	if !is_multiplayer_authority():
+		return
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _physics_process(delta : float) -> void:
+	if !is_multiplayer_authority():
+		return
 	_salto(delta)
 	_movimiento(delta)
 	actualizar_stamina()
@@ -45,7 +56,7 @@ func actualizar_stamina():
 	else:
 		SPRINT = 6.0
 		
-	print("mi velocidad es: ", SPRINT, " y mi estamina es de: " , stamina)
+#	print("mi velocidad es: ", SPRINT, " y mi estamina es de: " , stamina)
 
 
 func _movimiento(delta : float):
